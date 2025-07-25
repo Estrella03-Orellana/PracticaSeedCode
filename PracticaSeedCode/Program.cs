@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PracticaSeedCode.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<PracticaSeedCodeContext>(options =>
@@ -11,13 +12,19 @@ builder.Services.AddDbContext<PracticaSeedCodeContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Conn"));
 });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/User/Login"; // Ruta a pantalla de login
+        options.AccessDeniedPath = "/Home/AccesoDenegado";
+    });
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    
     app.UseHsts();
 }
 
@@ -31,5 +38,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
+
+builder.Services.AddAuthorization(); //[Authorize]
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.Run();
