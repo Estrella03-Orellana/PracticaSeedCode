@@ -10,7 +10,7 @@ using PracticaSeedCode.Models;
 
 namespace PracticaSeedCode.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "ADMINISTRADOR")]
     public class RoleController : Controller
     {
         private readonly PracticaSeedCodeContext _context;

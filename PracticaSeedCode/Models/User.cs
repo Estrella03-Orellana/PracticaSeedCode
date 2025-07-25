@@ -14,8 +14,10 @@ public partial class User
     [Display(Name = "Contraseña")]
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
-    [Display(Name = "Rol")]
-    public int RoleId { get; set; }
 
-    public virtual Role Role { get; set; } = null!;
+    [Display(Name = "Rol")]
+    public int? RoleId { get; set; }  
+
+    public virtual Role? Role { get; set; }  
+
 }

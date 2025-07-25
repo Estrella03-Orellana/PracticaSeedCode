@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
-
 builder.Services.AddDbContext<PracticaSeedCodeContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Conn"));
@@ -17,16 +16,18 @@ builder.Services.AddDbContext<PracticaSeedCodeContext>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/User/Login"; // Ruta a pantalla de login
+        options.LoginPath = "/User/Login";
         options.AccessDeniedPath = "/Home/AccesoDenegado";
     });
 
+builder.Services.AddAuthorization(); 
+
 var app = builder.Build();
+
 
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    
     app.UseHsts();
 }
 
@@ -35,18 +36,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication(); 
+app.UseAuthorization();  
+
 
 app.MapControllerRoute(
-   name: "default",
-        pattern: "{controller=User}/{action=Login}/{id?}");
-
-
-
-
-builder.Services.AddAuthorization(); //[Authorize]
-app.UseAuthentication();
-app.UseAuthorization();
-
+    name: "default",
+    pattern: "{controller=User}/{action=Login}/{id?}");
 
 app.Run();

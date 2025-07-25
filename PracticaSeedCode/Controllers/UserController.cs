@@ -15,7 +15,7 @@ using System.Text;
 
 namespace PracticaSeedCode.Controllers
 {
-    //[Authorize(Roles = "ADMINISTRADOR")]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly PracticaSeedCodeContext _context;
@@ -25,7 +25,7 @@ namespace PracticaSeedCode.Controllers
             _context = context;
         }
 
-     
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index(string Name, int topRegistro = 10)
         {
             var query = _context.Users.AsQueryable();
@@ -43,8 +43,8 @@ namespace PracticaSeedCode.Controllers
             return View(await query.ToListAsync());
         }
 
-       
 
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -63,6 +63,8 @@ namespace PracticaSeedCode.Controllers
             return View(user);
         }
 
+
+        [Authorize(Roles = "ADMINISTRADOR")]
         public IActionResult Create()
         {
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
@@ -71,10 +73,12 @@ namespace PracticaSeedCode.Controllers
 
     
         [HttpPost]
+        [Authorize(Roles = "ADMINISTRADOR")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,RoleId")] User user)
         {
             if (ModelState.IsValid)
+
             {
                 user.Password = CalcularHashMD5(user.Password);
                 _context.Add(user);
@@ -85,14 +89,98 @@ namespace PracticaSeedCode.Controllers
             return View(user);
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> CerrarSession()
+
+        [Authorize(Roles = "ADMINISTRADOR")]
+        public async Task<IActionResult> Edit(int? id)
         {
-           
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ViewBag.RoleId = new SelectList(_context.Roles, "Id", "Name", user.RoleId);
+            return View(user);
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "ADMINISTRADOR")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,RoleId")] User user)
+        {
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+
+            var usuarioUpdate = await _context.Users.FirstOrDefaultAsync(m => m.Id == user.Id);
+            {
+                try
+                {
+                    usuarioUpdate.Name = user.Name;
+                    usuarioUpdate.Email = user.Email;
+                    usuarioUpdate.RoleId = user.RoleId;
+                    _context.Update(usuarioUpdate);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(user.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        ViewBag.RoleId = new SelectList(_context.Roles, "Id", "Name", user.RoleId);
+                        return View(user);
+                    }
+                }
+
+            }
+        }
+
+        [Authorize(Roles = "ADMINISTRADOR")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "ADMINISTRADOR")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ----------- ACCIONES PÚBLICAS / AUTENTICADAS --------------
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -140,101 +228,14 @@ namespace PracticaSeedCode.Controllers
         }
 
 
-
-        public async Task<IActionResult> Edit(int? id)
+        [AllowAnonymous]
+        public async Task<IActionResult> CerrarSession()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
 
- 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,RoleId")] User user)
-        {
-            if (id != user.Id)
-            {
-                return NotFound();
-            }
-
-            var usuarioUpdate = await _context.Users.FirstOrDefaultAsync(m => m.Id == user.Id);
-            {
-                try
-                {
-                    usuarioUpdate.Name = user.Name;
-                    usuarioUpdate.Email = user.Email;
-                    usuarioUpdate.Role = user.Role;
-                    _context.Update(usuarioUpdate);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        return View(user);
-                    }
-                }
-
-            }
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .Include(u => u.Role)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
-
-
-        private bool UsuarioExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
 
         public async Task<IActionResult> Perfil()
         {
@@ -244,6 +245,8 @@ namespace PracticaSeedCode.Controllers
             var usuario = await _context.Users.FindAsync(id);
             return View(usuario);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Perfil(int id, [Bind("Id,Name,Email,Role")] User user)
@@ -282,6 +285,19 @@ namespace PracticaSeedCode.Controllers
 
             return View(user);
         }
+
+
+        private bool UserExists(int id)
+        {
+            return _context.Users.Any(e => e.Id == id);
+        }
+
+
+        private bool UsuarioExists(int id)
+        {
+            return _context.Users.Any(e => e.Id == id);
+        }
+
 
         private string CalcularHashMD5(string input)
         {

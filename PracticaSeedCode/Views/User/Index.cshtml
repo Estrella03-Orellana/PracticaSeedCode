@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<PracticaSeedCode.Models.User>
 
+
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>LISTA DE USUARIOS</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear Nuevo Rol</a>
 </p>
 <table class="table">
     <thead>
@@ -42,11 +43,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Role.Id)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                </td>
         </tr>
 }
     </tbody>
