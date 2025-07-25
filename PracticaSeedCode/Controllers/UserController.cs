@@ -15,7 +15,7 @@ using System.Text;
 
 namespace PracticaSeedCode.Controllers
 {
-    [Authorize(Roles = "ADMINISTRADOR")]
+    //[Authorize(Roles = "ADMINISTRADOR")]
     public class UserController : Controller
     {
         private readonly PracticaSeedCodeContext _context;
@@ -25,7 +25,7 @@ namespace PracticaSeedCode.Controllers
             _context = context;
         }
 
-        // GET: User
+     
         public async Task<IActionResult> Index(string Name, int topRegistro = 10)
         {
             var query = _context.Users.AsQueryable();
@@ -44,7 +44,7 @@ namespace PracticaSeedCode.Controllers
         }
 
        
-        // GET: User/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -63,16 +63,13 @@ namespace PracticaSeedCode.Controllers
             return View(user);
         }
 
-        // GET: User/Create
         public IActionResult Create()
         {
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Id");
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
             return View();
         }
 
-        // POST: User/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,RoleId")] User user)
@@ -90,7 +87,7 @@ namespace PracticaSeedCode.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CerrarSession()
         {
-            // Hola mundo
+           
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
@@ -117,12 +114,22 @@ namespace PracticaSeedCode.Controllers
             new Claim(ClaimTypes.Name, usuarioAuth.Email),
             new Claim("Id", usuarioAuth.Id.ToString()),
             new Claim("Nombre", usuarioAuth.Name),
-            new Claim(ClaimTypes.Role, usuarioAuth.Role.Name) // <- corregido
+            new Claim(ClaimTypes.Role, usuarioAuth.Role.Name) 
         };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-                return RedirectToAction("Index", "Home");
+
+                // Redirigir según el rol
+                if (usuarioAuth.Role.Name == "ADMINISTRADOR")
+                {
+                    return RedirectToAction("Index", "User");
+                }
+                else
+                {
+                    return RedirectToAction("Perfil", "User");
+                }
+
             }
             else
             {
@@ -132,7 +139,7 @@ namespace PracticaSeedCode.Controllers
         }
 
 
-        // GET: User/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -148,9 +155,7 @@ namespace PracticaSeedCode.Controllers
             return View(user);
         }
 
-        // POST: User/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,RoleId")] User user)
@@ -186,7 +191,6 @@ namespace PracticaSeedCode.Controllers
             }
         }
 
-        // GET: User/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -205,7 +209,7 @@ namespace PracticaSeedCode.Controllers
             return View(user);
         }
 
-        // POST: User/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -241,7 +245,7 @@ namespace PracticaSeedCode.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Perfil(int id, [Bind("UserId,Name,Email,Role")] User user)
+        public async Task<IActionResult> Perfil(int id, [Bind("Id,Name,Email,Role")] User user)
         {
             if (id != user.Id)
             {
