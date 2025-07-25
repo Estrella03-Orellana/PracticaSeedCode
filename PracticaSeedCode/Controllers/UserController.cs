@@ -81,6 +81,7 @@ namespace PracticaSeedCode.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", user.RoleId);
             return View(user);
         }
 
