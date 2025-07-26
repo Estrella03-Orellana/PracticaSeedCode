@@ -7,47 +7,49 @@
 <div class="container my-4">
     <h1 class="mb-4">Crear Usuario</h1>
 
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div class="alert alert-danger">
-            <ul>
-                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    <li>@error.ErrorMessage</li>
-                }
-            </ul>
-        </div>
-    }
-
     <form asp-action="Create" method="post" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" required />
-            <span asp-validation-for="Name" class="text-danger"></span>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Email" class="form-label"></label>
-            <input asp-for="Email" type="email" class="form-control" required />
-            <span asp-validation-for="Email" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" type="email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Password" class="form-label"></label>
-            <input asp-for="Password" type="password" class="form-control" required />
-            <span asp-validation-for="Password" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control" required />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="mb-4">
-            <label asp-for="RoleId" class="form-label"></label>
-            <select asp-for="RoleId" class="form-select" asp-items="ViewBag.RoleId" required>
-                <option value="">-- Seleccione un rol --</option>
-            </select>
-            <span asp-validation-for="RoleId" class="text-danger"></span>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label asp-for="RoleId" class="form-label"></label>
+                <select asp-for="RoleId" class="form-select" asp-items="ViewBag.RoleId" required>
+                    <option value="">-- Seleccione un rol --</option>
+                </select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Crear</button>
-        <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary">Crear</button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+            </div>
+        </div>
+
     </form>
 </div>
 

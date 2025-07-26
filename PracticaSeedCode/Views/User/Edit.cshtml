@@ -11,30 +11,41 @@
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-        <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" required />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Email" class="form-label"></label>
-            <input asp-for="Email" type="email" class="form-control" required />
-            <span asp-validation-for="Email" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" type="email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="mb-4">
-            <label asp-for="RoleId" class="form-label"></label>
-            <select asp-for="RoleId" class="form-select" asp-items="ViewBag.RoleId" required>
-                <option value="">-- Seleccione un rol --</option>
-            </select>
-            <span asp-validation-for="RoleId" class="text-danger"></span>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label asp-for="RoleId" class="form-label"></label>
+                <select asp-for="RoleId" class="form-select" asp-items="ViewBag.RoleId" required>
+                    <option value="">-- Seleccione un rol --</option>
+                </select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+            </div>
+        </div>
     </form>
 </div>
+
 
 @section Scripts {
     @{

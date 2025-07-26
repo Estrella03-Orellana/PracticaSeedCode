@@ -7,7 +7,7 @@ namespace PracticaSeedCode.Models;
 public partial class Role
 {
     public int Id { get; set; }
-    [Display(Name = "Name")]
+    [Display(Name = "Rol")]
     public string Name { get; set; } = null!;
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();

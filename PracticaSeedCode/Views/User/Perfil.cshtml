@@ -3,37 +3,46 @@
 @{
     ViewData["Title"] = "Mi Perfil";
 }
-
 <div class="container my-2">
     <h1 class="mb-4">Mi Perfil</h1>
 
     <form asp-action="Perfil" method="post" class="needs-validation" novalidate>
         <input type="hidden" asp-for="Id" />
+
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-        <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" required />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Email" class="form-label"></label>
-            <input asp-for="Email" type="email" class="form-control" required />
-            <span asp-validation-for="Email" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" type="email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="mb-4">
-            <label asp-for="Role" class="form-label"></label>
-            <select asp-for="Role" class="form-select" disabled>
-                <option value="ADMINISTRADOR" selected="@Model.Role == " ADMINISTRADOR"">ADMINISTRADOR</option>
-                <option value="NORMAL" selected="@Model.Role == " NORMAL"">NORMAL</option>
-            </select>
-            <small class="form-text text-muted">El rol no se puede cambiar aquí.</small>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label asp-for="Role" class="form-label"></label>
+                <select asp-for="Role" class="form-select" disabled>
+                    <option value="ADMINISTRADOR" selected="@Model.Role == " ADMINISTRADOR"">ADMINISTRADOR</option>
+                    <option value="NORMAL" selected="@Model.Role == " NORMAL"">NORMAL</option>
+                </select>
+                <small class="form-text text-muted">El rol no se puede cambiar aquí.</small>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a asp-action="CerrarSession" class="btn btn-link">Cerrar sesión</a>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
     </form>
 </div>
 
