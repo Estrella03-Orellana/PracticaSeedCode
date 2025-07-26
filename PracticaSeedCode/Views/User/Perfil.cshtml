@@ -6,18 +6,10 @@
 <div class="container my-2">
     <h1 class="mb-4">Mi Perfil</h1>
 
-    <form asp-action="Perfil" method="post" class="needs-validation" novalidate>
+    <form asp-action="Perfil" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         <input type="hidden" asp-for="Id" />
 
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <label class="form-label">Foto de perfil (opcional)</label>
-                <input asp-for="FotoFile" type="file" class="form-control" accept="image/*" />
-                <span asp-validation-for="FotoFile" class="text-danger"></span>
-            </div>
-        </div>
 
         <div class="row mb-3">
             <div class="col-md-6">
@@ -46,11 +38,9 @@
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </div>
+
+
+  
     </form>
 </div>
 
@@ -59,5 +49,4 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
 
