@@ -114,7 +114,7 @@ namespace PracticaSeedCode.Controllers
         [HttpPost]
         [Authorize(Roles = "ADMINISTRADOR")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,RoleId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,RoleId,FotoFile")] User user)
         {
             if (id != user.Id)
             {
@@ -122,31 +122,68 @@ namespace PracticaSeedCode.Controllers
             }
 
             var usuarioUpdate = await _context.Users.FirstOrDefaultAsync(m => m.Id == user.Id);
+            if (usuarioUpdate == null)
             {
-                try
+                return NotFound();
+            }
+
+            try
+            {
+                
+                usuarioUpdate.Name = user.Name;
+                usuarioUpdate.Email = user.Email;
+                usuarioUpdate.RoleId = user.RoleId;
+
+                if (user.FotoFile != null && user.FotoFile.Length > 0)
                 {
-                    usuarioUpdate.Name = user.Name;
-                    usuarioUpdate.Email = user.Email;
-                    usuarioUpdate.RoleId = user.RoleId;
-                    _context.Update(usuarioUpdate);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.Id))
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+                 
+                    if (!Directory.Exists(uploadsFolder))
                     {
-                        return NotFound();
+                        Directory.CreateDirectory(uploadsFolder);
                     }
-                    else
+
+                 
+                    if (!string.IsNullOrEmpty(usuarioUpdate.FotoPerfil))
                     {
-                        ViewBag.RoleId = new SelectList(_context.Roles, "Id", "Name", user.RoleId);
-                        return View(user);
+                        var oldFilePath = Path.Combine(uploadsFolder, usuarioUpdate.FotoPerfil);
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
                     }
+
+                   
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(user.FotoFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+              
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await user.FotoFile.CopyToAsync(stream);
+                    }
+
+                  
+                    usuarioUpdate.FotoPerfil = uniqueFileName;
                 }
 
+                _context.Update(usuarioUpdate);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(user.Id))
+                {
+                    return NotFound();
+                }
+
+                ViewBag.RoleId = new SelectList(_context.Roles, "Id", "Name", user.RoleId);
+                return View(user);
             }
         }
+
 
         [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Delete(int? id)

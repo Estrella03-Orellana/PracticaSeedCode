@@ -8,6 +8,17 @@
     <h1 class="mb-4">Detalles del Usuario</h1>
 
     <dl class="row">
+        <dt class="col-sm-3 fw-semibold">Foto</dt>
+        <dd class="col-sm-9">
+            @if (!string.IsNullOrEmpty(Model.FotoPerfil))
+            {
+                <img src="@Url.Content("~/uploads/" + Model.FotoPerfil)" alt="Foto perfil" width="150" height="150" class="rounded-circle mb-3" />
+            }
+            else
+            {
+                <img src="@Url.Content("~/uploads/default-user.png.jpg")" alt="Sin foto" width="150" height="150" class="rounded-circle mb-3" />
+            }
+
         <dt class="col-sm-3 fw-semibold">@Html.DisplayNameFor(model => model.Name)</dt>
         <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
 

@@ -11,6 +11,14 @@
 
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label">Foto de perfil (opcional)</label>
+                <input asp-for="FotoFile" type="file" class="form-control" accept="image/*" />
+                <span asp-validation-for="FotoFile" class="text-danger"></span>
+            </div>
+        </div>
+
         <div class="row mb-3">
             <div class="col-md-6">
                 <label asp-for="Name" class="form-label"></label>

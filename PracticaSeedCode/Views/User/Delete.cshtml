@@ -8,6 +8,15 @@
     <h1 class="mb-4 text-danger">Eliminar Usuario</h1>
     <h5>¿Está seguro de eliminar este usuario?</h5>
 
+    @if (!string.IsNullOrEmpty(Model.FotoPerfil))
+    {
+        <img src="@Url.Content("~/uploads/" + Model.FotoPerfil)" alt="Foto perfil" width="120" height="120" class="rounded-circle mb-3" />
+    }
+    else
+    {
+        <img src="@Url.Content("~/uploads/default-user.png.jpg")" alt="Sin foto" width="120" height="120" class="rounded-circle mb-3" />
+    }
+
     <dl class="row">
         <dt class="col-sm-3 fw-semibold">Nombre</dt>
         <dd class="col-sm-9">@Model.Name</dd>
@@ -25,3 +34,4 @@
         <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
     </form>
 </div>
+
