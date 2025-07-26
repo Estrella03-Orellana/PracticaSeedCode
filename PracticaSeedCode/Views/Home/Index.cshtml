@@ -2,7 +2,19 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">GESTION  DE ROLES Y USUARIOS</h1>
-    
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100 text-center">
+    <h1 class="display-3 fw-bold mb-4 text-primary">Gestión de Roles y Usuarios</h1>
+    <p class="lead mb-5 text-secondary">
+        Administra fácilmente los roles y usuarios del sistema.
+        Crea, edita y asigna permisos para mantener tu aplicación segura y organizada.
+    </p>
+
+    <div>
+        <a asp-controller="User" asp-action="Index" class="btn btn-primary btn-lg me-3">
+            Ver Usuarios
+        </a>
+        <a asp-controller="Role" asp-action="Index" class="btn btn-outline-primary btn-lg">
+            Ver Roles
+        </a>
+    </div>
 </div>

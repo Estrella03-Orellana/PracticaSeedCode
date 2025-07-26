@@ -1,27 +1,22 @@
 ﻿@model PracticaSeedCode.Models.Role
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Rol";
 }
 
-<h1>ELIMINAR ROL</h1>
-
-<h3>¿Está seguro de eliminar el rol?</h3>
-<div>
-    <h4>Role</h4>
+<div class="container my-4">
+    <h1>Eliminar Rol</h1>
+    <h5 class="text-danger">¿Está seguro de eliminar este rol?</h5>
     <hr />
+
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
     </dl>
-    
-    <form asp-action="Delete">
+
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
     </form>
 </div>

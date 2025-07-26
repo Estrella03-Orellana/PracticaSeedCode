@@ -1,43 +1,40 @@
 ﻿@model PracticaSeedCode.Models.User
 
 @{
-    ViewData["Title"] = "Perfil";
+    ViewData["Title"] = "Mi Perfil";
 }
 
-<h1><strong>Perfil</strong></h1>
+<div class="container my-2">
+    <h1 class="mb-4">Mi Perfil</h1>
 
-<h4>Usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Perfil">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" class="form-control">
-                    <option value="">SELECCIONAR</option>
-                    <option value="ADMINISTRADOR">ADMINISTRADOR</option>
-                    <option value="NORMAL">NORMAL</option>
-                </select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Logout">Cerrar sesión</a>
-            </div>
-        </form>
-    </div>
+    <form asp-action="Perfil" method="post" class="needs-validation" novalidate>
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" type="email" class="form-control" required />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Role" class="form-label"></label>
+            <select asp-for="Role" class="form-select" disabled>
+                <option value="ADMINISTRADOR" selected="@Model.Role == " ADMINISTRADOR"">ADMINISTRADOR</option>
+                <option value="NORMAL" selected="@Model.Role == " NORMAL"">NORMAL</option>
+            </select>
+            <small class="form-text text-muted">El rol no se puede cambiar aquí.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="CerrarSession" class="btn btn-link">Cerrar sesión</a>
+    </form>
 </div>
 
 @section Scripts {
@@ -45,4 +42,5 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
 

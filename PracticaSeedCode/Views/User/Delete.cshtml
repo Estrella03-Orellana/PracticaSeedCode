@@ -1,45 +1,27 @@
 ﻿@model PracticaSeedCode.Models.User
 
 @{
-    ViewData["Title"] = "Eliminar";
+    ViewData["Title"] = "Eliminar Usuario";
 }
 
-<h1>ELIMINAR USUARIO</h1>
+<div class="container my-4">
+    <h1 class="mb-4 text-danger">Eliminar Usuario</h1>
+    <h5>¿Está seguro de eliminar este usuario?</h5>
 
-<h3>¿Está seguro de eliminar el usuario?</h3>
-<div>
-    <h4>Usuario</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Role)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Role.Id)
-        </dd>
+        <dt class="col-sm-3 fw-semibold">Nombre</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3 fw-semibold">Email</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3 fw-semibold">Rol</dt>
+        <dd class="col-sm-9">@Model.Role?.Name</dd>
     </dl>
-    
-    <form asp-action="Delete">
+
+    <form asp-action="DeleteConfirmed" method="post">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Regresar</a>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
     </form>
 </div>

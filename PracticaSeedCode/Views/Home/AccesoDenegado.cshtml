@@ -1,5 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Acceso Denegado";
 }
-<h1>Acceso Denegado</h1>
-<p>No tienes permisos para acceder a esta página.</p>
+
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100 text-center">
+    <div class="alert alert-danger shadow-sm p-4 rounded" style="max-width: 450px;">
+        <h1 class="display-4 mb-3"><i class="bi bi-lock-fill"></i> Acceso Denegado</h1>
+        <p class="lead mb-4">
+            Lo sentimos, no tienes permisos para acceder a esta página.
+        </p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">
+            Volver al Inicio
+        </a>
+    </div>
+</div>
+
+
+

@@ -28,7 +28,9 @@ namespace PracticaSeedCode.Controllers
         [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index(string Name, int topRegistro = 10)
         {
-            var query = _context.Users.AsQueryable();
+            var query = _context.Users
+                .Include(u => u.Role) 
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(Name))
             {
@@ -42,6 +44,7 @@ namespace PracticaSeedCode.Controllers
 
             return View(await query.ToListAsync());
         }
+
 
 
         [Authorize(Roles = "ADMINISTRADOR")]
