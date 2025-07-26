@@ -1,109 +1,72 @@
-# Proyecto ASP.NET MVC - Gestión de Roles y Usuarios
+# Proyecto ASP.NET MVC - Gestión Integral de Usuarios y Roles
 
-Este proyecto implementa dos CRUD básicos de usuario y rol utilizando Entity Framework Core y SQL Server.
-
-Requisitos
-
-- .NET 6 o superior
-- Visual Studio 2022
-- SQL Server
-- Paquetes instalados:
-  - Microsoft.EntityFrameworkCore.SqlServer
-  - Microsoft.EntityFrameworkCore.Tools
-
-Instalación
-
-1. Clona el repositorio o descarga el proyecto.
-2. Abre el proyecto en Visual Studio.
-3. Configura la cadena de conexión en `appsettings.json`.
-
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=TU_SERVIDOR;Database=PracticaSeedCode;Trusted_Connection=True;"
-}
-
- Funcionalidad Disponible
-
- Autenticación de Administrador
-- Se puede iniciar sesión únicamente con un usuario de tipo **Administrador**.
-- Al iniciar sesión, el sistema redirige al administrador al panel principal.
-
-Menú Dinámico según Rol
-Una vez autenticado como administrador, se muestra un menú con las siguientes opciones:
-- **Usuarios**
-- **Roles**
-- **Mi Perfil**
-- **Cerrar Sesión**
-
-Actualmente solo la opción **Roles** está 100% funcional.
+Este proyecto es un sistema web completo en ASP.NET Core MVC para la gestión integral de usuarios y roles.
 
 ---
 
-Módulo de Roles
- Funcionalidades disponibles:
-- Crear Rol 
-  Formulario para registrar un nuevo rol en el sistema.
-- Editar Rol  
-  Permite modificar el nombre de un rol existente.
-- Eliminar Rol 
-  Elimina un rol de forma permanente.
-- Listar Roles
-  Muestra todos los roles registrados en la base de datos.
+## Características Principales
 
-Todas estas operaciones interactúan con la base de datos mediante Entity Framework Core.
+El proyecto es 100% funcional e incluye:
 
----
-
-## Estructura del Proyecto
-
-- `Models/`  
-  Contiene las clases de modelo `User` y `Role`, utilizadas para mapear las entidades de base de datos.
-
-- `Controllers/`  
-  Controladores MVC como `UserController` y `RoleController` que manejan la lógica de las vistas y el acceso a los datos.
-
-- `Views/`  
-  Vistas Razor (.cshtml) para cada funcionalidad, organizadas por carpeta según el controlador.
-
-- `Data/ApplicationDbContext.cs`  
-  Archivo que gestiona el contexto de base de datos mediante Entity Framework Core.
-
-- `Program.cs / Startup.cs`  
-  Configuración de servicios, autenticación, y conexión a base de datos SQL Server.
+Autenticación por Roles: Login, control de acceso por rol y página de acceso denegado.
+Página de Inicio: Introducción al sistema con botones que dirigen al login o a secciones específicas según el rol.
+Gestión de Usuarios (CRUD): Administradores: Acceso completo (Crear, Leer, Actualizar, Eliminar).
+Usuarios Normales: Solo pueden ver sus datos.
+Gestión de Roles (CRUD): Exclusivo para Administradores (Crear, Leer, Actualizar, Eliminar).
+Manejo de Imágenes de Perfil: Administradores pueden subir y cambiar imágenes. Es opcional al crear un usuario, con 
+una imagen por defecto si no se sube ninguna.
 
 ---
 
-Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
-- ASP.NET Core MVC
-- Entity Framework Core
-- SQL Server
-- Bootstrap 5 (para diseño responsivo)
-- Identity (autenticación básica por roles, personalizada)
+ASP.NET Core MVC
+Entity Framework Core
+SQL Server
+NET 6 o superior
+Visual Studio 2022
+Bootstrap 5
+ASP.NET Core Identity (Personalizado)
 
 ---
 
-## Cómo Ejecutar el Proyecto
+## Requisitos
 
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/tu-proyecto.git
-   cd tu-proyecto
-   Configura la cadena de conexión a tu base de datos en appsettings.json.
+.NET 6 SDK o superior.
+ Visual Studio 2022.
+ Instancia de SQL Server accesible.
+ Paquetes NuGet: `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.EntityFrameworkCore.Tools`.
 
-Ejecuta las migraciones para crear la base de datos:
+---
 
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+## Instalación y Ejecución
 
-Ejecuta el proyecto:
+1.  Clonar el Repositorio:
+    ```bash
+    git clone [https://github.com/Estrella03-Orellana/PracticaSeedCode.git]
+    cd PracticaSeedCode
+    ```
+2.  Abrir en Visual Studio.
+3.  Configurar Cadena de Conexión: En `appsettings.json`, actualiza `"DefaultConnection"` con tus datos de SQL Server
+(ej. `"Server=TU_SERVIDOR;Database=PracticaSeedCode;Trusted_Connection=True;TrustServerCertificate=True;"`).
+4.  Ejecutar Migraciones: Abre la Consola del Administrador de Paquetes o la terminal y ejecuta:
+    ```bash
+    dotnet ef migrations add InitialCreate
+    dotnet ef database update
+    ```
+5.  Ejecutar Proyecto: Presiona `F5` en Visual Studio o `dotnet run` en la terminal.
+6.  Acceder a la Aplicación: La aplicación se abrirá en tu navegador (usualmente `https://localhost:XXXX`).
 
-dotnet run
-
-Accede a la aplicación desde tu navegador:
-
+---
 
 Credenciales de Acceso
 
-Actualmente solo se puede acceder con un usuario administrador predefinido en la base de datos. 
-Si no existe, deberás agregarlo manualmente con SQL Server Management Studio o mediante una migración de datos.
+Puedes iniciar sesión como administrador con las siguientes credenciales:
+
+Usuario: `admin@correo.com`
+Contraseña: `admin123`
+
+Ingresas como administrador y puedes crear un usuario normal
+---
+
+Repositorio GitHub: [https://github.com/Estrella03-Orellana/PracticaSeedCode.git]
